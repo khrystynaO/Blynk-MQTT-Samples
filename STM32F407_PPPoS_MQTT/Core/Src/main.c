@@ -545,6 +545,16 @@ void https_reg_test() {
 //    close(sock);
 //    printf("\nConnection closed\n");
 // }
+
+static int parse_int(const char* payload, size_t length) {
+   if(NULL == payload || 0 == length)
+      return 0;
+   static char buf[16];
+   length = (length < sizeof(buf) - 1) ? length : sizeof(buf) - 1;
+   memcpy(buf, payload, length);
+   buf[length] = 0; //zero term
+   return (int)strtol(buf, NULL, 10);
+}
 /* USER CODE END 4 */
 
 /* USER CODE BEGIN Header_StartDefaultTask */
@@ -583,7 +593,7 @@ void StartDefaultTask(void const* argument) {
             NVIC_SystemReset();
             break;
          case topic_power: {
-            int on = atoi((const char*)msg.payload);
+            int on = parse_int((const char*)msg.payload, msg.payload_len);
             printf("Power:%d\n", on);
             char tmp[0xf];
             int status = 1;
@@ -593,7 +603,7 @@ void StartDefaultTask(void const* argument) {
             mqtt_publish_ds("ds/Status", tmp);
          } break;
          case topic_settemperature: {
-            int temperature = atoi((const char*)msg.payload);
+            int temperature = parse_int((const char*)msg.payload, msg.payload_len);
             printf("Set Temperature:%d\n", temperature);
             char tmp[0xf]; sprintf(tmp, "%d", temperature);
             mqtt_publish_ds("ds/Current Temperature", tmp);
