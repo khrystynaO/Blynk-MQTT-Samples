@@ -16,7 +16,7 @@
 
 #define MQTT_CLIENT_ID ""
 #define MQTT_CLIENT_USER "device"
-#define MQTT_CLIENT_DEV_TOKEN "ggqUax2lkmk-ZYrS8BTTpmWLRTsZ7S28"
+// #define MQTT_CLIENT_DEV_TOKEN "device-token-here"
 #define MQTT_KEEP_ALIVE 45
 
 #ifndef MQTT_CLIENT_DEV_TOKEN
