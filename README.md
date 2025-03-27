@@ -27,3 +27,6 @@ The sample project simulates a heater device:
 - [**Lua**](Lua_OpenWrt/README.md) - ready for deployment on `OpenWrt`-based routers and SBCs like `Onion Omega2`
 - [**HTML5 / JavaScript**](HTML5_WebSocket/README.md) - thanks to the `WebSocket` technology, this example can be used [directly from the browser](https://bit.ly/Blynk-HTML5-MQTT-Sample)
 
+## Further reading
+
+- [Blynk MQTT API documentation](https://docs.blynk.io/en/blynk.cloud-mqtt-api/device-mqtt-api)
