@@ -1,0 +1,46 @@
+# Private config options for mqtt-blynk sample app
+
+# Copyright (c) 2019 Intel Corporation
+# SPDX-License-Identifier: Apache-2.0
+
+mainmenu "Networking mqtt-blynk sample application"
+
+config CLOUD_BLYNK_USERNAME
+	string "Blynk cloud username"
+    default "device"
+	help
+	  Username of your Blynk account.
+
+config CLOUD_BLYNK_AUTH_TOKEN
+	string "Blynk cloud password"
+	help
+	  Auth token of your Blynk device.
+
+config CLOUD_BLYNK_SERVER_ADDR
+	string "Blynk cloud server address"
+	default "blynk.cloud"
+	help
+	  Blynk cloud server address.
+
+config CLOUD_BLYNK_SERVER_PORT
+	int "Blynk cloud server port number"
+	default 8883
+	help
+	  Blynk cloud server port number.
+
+config SOCKS_ADDR
+	string "Proxy address"
+	depends on SOCKS
+	help
+	  Provide proxy address if you are running this application
+	  behind proxy.
+
+config SOCKS_PORT
+	int "Proxy port"
+	depends on SOCKS
+	help
+	  Provide proxy port if you are running this application
+	  behind proxy.
+
+source "Kconfig.zephyr"
+
