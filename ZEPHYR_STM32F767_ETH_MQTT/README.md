@@ -12,22 +12,6 @@ Important note: The microcontroller must have at least **128KB RAM** and more th
 
 Follow the official [Zephyr Getting Started Guide](https://docs.zephyrproject.org/latest/develop/getting_started/index.html) to set up your environment.
 
-Clone Zephyr and install Python tools:
-
-```sh
-west init -m https://github.com/zephyrproject-rtos/zephyr
-cd zephyr
-west update
-pip install -r zephyr/scripts/requirements.txt
-```
-
-## Install Toolchain
-
-Install the official Zephyr SDK:
-[https://docs.zephyrproject.org/latest/develop/toolchains/zephyr\_sdk.html](https://docs.zephyrproject.org/latest/develop/toolchains/zephyr_sdk.html)
-
-Or use a compatible `arm-none-eabi` toolchain (if not using the official SDK).
-
 ---
 
 ## Ethernet Configuration
@@ -44,7 +28,10 @@ Fill in your Blynk.Cloud credentials in `prj.conf`:
 
 ```
 # Enter your auth token here
-CONFIG_CLOUD_BLYNK_AUTH_TOKEN="ZcIf4acV2dO6YCUIIy8TRsUXSpWWXlb4"
+CONFIG_CLOUD_BLYNK_AUTH_TOKEN=""
+
+CONFIG_CLOUD_BLYNK_SERVER_ADDR="blynk.cloud"
+CONFIG_CLOUD_BLYNK_SERVER_PORT=8883
 
 ```
 

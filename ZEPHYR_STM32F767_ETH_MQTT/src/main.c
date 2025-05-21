@@ -250,7 +250,6 @@ static void client_init(struct mqtt_client *client)
 static void publish_str(const char *topic, const char *value)
 {
     if (!mqtt_connected) {
-        LOG_WRN("Publish skipped (MQTT not connected): %s -> %s", topic, value);
         return;
     }
 
@@ -635,6 +634,7 @@ static void abort_mqtt_connection(void)
 		mqtt_connected = false;
 		mqtt_abort(&client_ctx);
 		k_work_cancel_delayable(&pub_message);
+        clear_fds();
 	}
 }
 
