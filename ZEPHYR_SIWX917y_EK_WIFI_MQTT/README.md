@@ -46,7 +46,7 @@ This project uses the standard **Zephyr CMake+West** build system. But also you 
 
 ```sh
 # Build the firmware
-west build -b siwx917y_ek --sysbuild .
+west build -b siwx917y_ek
 
 # Flash firmware (ST-Link is built into the board)
 west flash
