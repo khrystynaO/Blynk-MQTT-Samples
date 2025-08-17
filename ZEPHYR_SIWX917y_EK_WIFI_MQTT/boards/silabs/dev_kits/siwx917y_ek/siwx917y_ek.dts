@@ -1,0 +1,154 @@
+/*
+ * Copyright (c) 2023 Antmicro
+ * Copyright (c) 2024-2025 Silicon Laboratories Inc.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/dts-v1/;
+#include <silabs/siwg917m111mgtba.dtsi>
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/input/input-event-codes.h>
+#include <dt-bindings/pinctrl/silabs/siwx91x-pinctrl.h>
+#include <common/freq.h>
+#include "siwx917y_ek-pinctrl.dtsi"
+
+/ {
+	model = "Silicon Labs BRD2708A (SiWx917Y Explorer Kit)";
+	compatible = "silabs,siwx917y_ek", "silabs,siwg917y";
+
+	chosen {
+		zephyr,sram = &sram0;
+		zephyr,code-partition = &slot0_partition;
+		zephyr,console = &ulpuart;
+		zephyr,shell-uart = &ulpuart;
+		zephyr,uart-pipe = &ulpuart;
+		zephyr,bt-hci = &bt_hci0;
+        zephyr,wifi = &wifi0;
+	};
+
+	aliases {
+		led0 = &led0;
+		led1 = &led1;
+		sw0 = &button0;
+		sw1 = &button1;
+        wifi0 = &wifi0;
+	};
+
+	leds {
+		compatible = "gpio-leds";
+
+		led0: led_0 {
+			gpios = <&gpioa 10 GPIO_ACTIVE_HIGH>;  /* GPIO_10 */
+			label = "LED0";
+		};
+
+		led1: led_1 {
+			gpios = <&ulpgpio 2 GPIO_ACTIVE_HIGH>; /* ULP_GPIO_2 */
+			label = "LED1";
+		};
+	};
+
+	buttons {
+		compatible = "gpio-keys";
+
+		button0: button_0 {
+			gpios = <&uulpgpio 2 GPIO_ACTIVE_LOW>; /* UULP_VBAT_GPIO_2 */
+			zephyr,code = <INPUT_KEY_0>;
+			label = "Button 0";
+		};
+
+		button1: button_1 {
+			gpios = <&gpioa 11 GPIO_ACTIVE_LOW>;   /* GPIO_11 */
+			zephyr,code = <INPUT_KEY_1>;
+			label = "Button 1";
+		};
+	};
+};
+
+&ulpuart {
+	status = "okay";
+	pinctrl-0 = <&ulpuart_default>;
+	pinctrl-names = "default";
+};
+
+/* I2C for Qwiic connector and mikroBUS */
+&ulpi2c {
+	status = "okay";
+	pinctrl-0 = <&ulpi2c_default>;
+	pinctrl-names = "default";
+	clock-frequency = <DT_FREQ_K(100)>;
+};
+
+&cpu0 {
+	clock-frequency = <180000000>; /* 180 MHz as per spec */
+};
+
+&flash0 {
+	partitions {
+		compatible = "fixed-partitions";
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		/* Reserve 32 kB for the bootloader */
+		boot_partition: partition@0 {
+			label = "mcuboot";
+			reg = <0x0 0x00008000>;
+			read-only;
+		};
+
+		/* Reserve 220 kB for the application in slot 0 */
+		slot0_partition: partition@8000 {
+			label = "image-0";
+			reg = <0x00008000 0x00037000>;
+		};
+
+		/* Reserve 220 kB for the application in slot 1 */
+		slot1_partition: partition@3f000 {
+			label = "image-1";
+			reg = <0x0003f000 0x00037000>;
+		};
+
+		/* Reserve 32 kB for the scratch partition */
+		scratch_partition: partition@76000 {
+			label = "image-scratch";
+			reg = <0x00076000 0x00008000>;
+		};
+
+		/* Set 8Kb of storage at the end of the 512KB of flash */
+		storage_partition: partition@7e000 {
+			label = "storage";
+			reg = <0x0007e000 0x00002000>;
+		};
+	};
+};
+
+/* PSRAM Configuration - 64 Mbit QSPI PSRAM */
+&memc {
+	clocks = <&clock0 SIWX91X_CLK_QSPI>;
+	pinctrl-0 = <&psram_default>;
+	pinctrl-names = "default";
+	device-id = [ 0d 5d 00 00 00 00 00 00 ];
+	fast-freq = <DT_FREQ_M(144)>;
+	normal-freq = <DT_FREQ_M(33)>;
+	status = "okay";
+
+	psram: psram@a000000 {
+		compatible = "zephyr,memory-region", "mmio-sram";
+		reg = <0xa000000 DT_SIZE_M(8)>;  /* 64 Mbit = 8 MB */
+		zephyr,memory-attr = <( DT_MEM_ARM(ATTR_MPU_RAM) )>;
+		zephyr,memory-region = "psram";
+	};
+};
+
+&sysrtc0 {
+	status = "okay";
+};
+
+&bt_hci0 {
+	status = "okay";
+};
+
+&wifi0 {
+	status = "okay";
+};
+

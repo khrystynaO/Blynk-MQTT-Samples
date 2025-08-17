@@ -1,0 +1,8 @@
+board:
+  name: siwx917y_ek
+  full_name: SiWx917 Wi-Fi 6 and Bluetooth LE SoC 8 MB Flash Radio Board (siwx917y_ek)
+  vendor: silabs
+  socs:
+    - name: siwg917m111mgtba
+
+

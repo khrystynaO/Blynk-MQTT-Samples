@@ -1,0 +1,5 @@
+# SiWx917Y Explorer Kit board configuration
+
+config BOARD_SIWX917Y_EK
+	select SOC_PART_NUMBER_SIWG917M111MGTBA
+

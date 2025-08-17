@@ -1,0 +1,37 @@
+/*
+ * Copyright (c) 2025 Silicon Laboratories Inc.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <dt-bindings/pinctrl/silabs/siwx91x-pinctrl.h>
+
+&pinctrl0 {
+	/* PSRAM configuration for 64-Mbit QSPI PSRAM */
+	psram_default: psram_default {
+		group {
+			pinmux = <PSRAM_CLK_HP52>,    /* GPIO_52 */
+				 <PSRAM_D0_HP53>,     /* GPIO_53 */
+				 <PSRAM_D1_HP54>,     /* GPIO_54 */
+				 <PSRAM_D2_HP56>,     /* GPIO_56 */
+				 <PSRAM_D3_HP57>,     /* GPIO_57 */
+				 <PSRAM_CSN0_HP55>;   /* GPIO_55 */
+		};
+	};
+
+	/* UART configuration for Virtual COM Port */
+	ulpuart_default: ulpuart_default {
+		group {
+			pinmux = <ULPUART_TX_ULP11>,  /* ULP_GPIO_11 */
+				 <ULPUART_RX_ULP9>;   /* ULP_GPIO_9 */
+		};
+	};
+
+	/* I2C configuration for Qwiic and mikroBUS */
+	ulpi2c_default: ulpi2c_default {
+		group {
+			pinmux = <ULPI2C_SDA_ULP6>,   /* ULP_GPIO_6 */
+				 <ULPI2C_SCL_ULP7>;   /* ULP_GPIO_7 */
+		};
+	};
+};
+
